@@ -1,0 +1,163 @@
+/* Source design: SAMVED_Portal_Updated/JAVA PROJECT OOP/portal-pages.css. */
+@import url('/portal-pages.css');
+/* Backend-backed pages retain their form and data handlers inside that design. */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+:root {
+  --portal-primary:#7663eb; --portal-primary-light:#ece9fd;
+  --portal-bg:#f4f5fc; --portal-border:#e6e9f6;
+  --portal-text:#232a42; --portal-muted:#68738f;
+  --primary-dark:#232a42; --sidebar-bg:#fff; --sidebar-active:#ece9fd;
+  --accent-blue:#7663eb; --bg-body:#f4f5fc; --text-dark:#232a42;
+  --text-muted:#68738f; --border-color:#e6e9f6;
+}
+html,body {min-height:100%;}
+body.samved-themed {display:block!important;background:linear-gradient(135deg,#eff1fb,#f7f8fd 50%,#eef0fa)!important;color:var(--portal-text)!important;font-family:'Plus Jakarta Sans',system-ui,sans-serif!important;}
+body.samved-themed::before,body.samved-themed::after {content:'';position:fixed;bottom:0;width:160px;height:105px;background-size:contain;background-repeat:no-repeat;pointer-events:none;opacity:.65;z-index:0;}
+body.samved-themed::before {left:0;background-image:url('/assets/corner-leaves-left.png');}
+body.samved-themed::after {right:0;background-image:url('/assets/corner-leaves-right.png');}
+body.samved-themed .portal-layout {display:block!important;min-height:100vh!important;}
+body.samved-themed .sidebar {display:none!important;}
+.samved-topbar {position:fixed;top:0;left:0;right:0;height:76px;z-index:1000;display:flex;align-items:center;gap:20px;padding:10px 24px;background:rgba(248,249,255,.96);border-bottom:1px solid var(--portal-border);backdrop-filter:blur(12px);}
+.samved-brand {display:flex;align-items:center;min-width:210px;text-decoration:none;}
+.samved-brand img {display:block;max-width:170px;max-height:52px;object-fit:contain;}
+.samved-topbar-title {font:800 17px 'Nunito',sans-serif;color:var(--portal-text);}
+.samved-page-search {flex:1;max-width:410px;margin:0 auto;}
+.samved-page-search input {width:100%;padding:10px 15px;border:1px solid var(--portal-border);border-radius:999px;background:#f1f3fc;color:var(--portal-text);font:500 12px 'Plus Jakarta Sans',sans-serif;}
+.samved-page-search input:focus {background:#fff;outline:2px solid var(--portal-primary-light);}
+.samved-topbar-actions {display:flex;align-items:center;gap:12px;}
+.samved-topbar-actions a,.samved-topbar-actions button {border:1px solid var(--portal-border);border-radius:999px;padding:9px 14px;background:#fff;color:var(--portal-text);font:700 12px 'Plus Jakarta Sans',sans-serif;text-decoration:none;cursor:pointer;}
+.samved-topbar-actions button:hover,.samved-topbar-actions a:hover {border-color:var(--portal-primary);color:var(--portal-primary);}
+.samved-menu-toggle {border:1px solid var(--portal-border);border-radius:9px;background:#fff;color:var(--portal-primary);padding:7px 10px;font-size:17px;cursor:pointer;}
+.samved-avatar {width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--portal-primary-light);color:var(--portal-primary);font-weight:800;}
+.samved-menu-toggle {display:none!important;}
+.samved-navigation {position:fixed;top:76px;bottom:0;left:0;width:230px;z-index:999;overflow-y:auto;padding:16px 12px 24px;background:#fff;border-right:1px solid var(--portal-border);box-shadow:8px 0 24px rgba(95,105,160,.04);}
+.samved-nav-group {margin:13px 10px 7px;color:#8d96ad;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;}
+.samved-navigation a {display:flex;align-items:center;gap:11px;padding:10px 13px;margin:2px 0;border-radius:12px;color:#58637e;text-decoration:none;font:700 12px 'Plus Jakarta Sans',sans-serif;}
+.samved-navigation a:hover,.samved-navigation a[aria-current=page] {background:var(--portal-primary-light);color:var(--portal-primary);}
+.samved-navigation a span {font-size:17px;width:22px;text-align:center;}
+body.samved-themed .main-wrapper,body.samved-themed .portal-main {position:relative;z-index:1;margin-left:230px!important;padding-top:76px!important;width:calc(100% - 230px)!important;min-height:100vh;background:transparent!important;max-width:none!important;}
+body.samved-themed .top-bar,body.samved-themed .portal-header {background:transparent!important;border:0!important;padding:24px 28px 8px!important;box-shadow:none!important;}
+body.samved-themed .top-bar h1,body.samved-themed .top-bar h2,body.samved-themed .portal-header h1 {color:var(--portal-text)!important;font-family:'Nunito',sans-serif!important;}
+body.samved-themed .dashboard-container,body.samved-themed .portal-content {padding:16px 28px 32px!important;}
+body.samved-themed .card,body.samved-themed .portal-card,body.samved-themed .welcome-card {background:#fff!important;border:1px solid var(--portal-border)!important;border-radius:18px!important;box-shadow:0 10px 30px -10px rgba(95,105,160,.09)!important;}
+body.samved-themed button:not(.samved-topbar button):not(.samved-menu-toggle),body.samved-themed .btn-sync {border-radius:10px;}
+body.samved-themed a {accent-color:var(--portal-primary);}
+body.samved-themed input:focus,body.samved-themed select:focus,body.samved-themed textarea:focus {outline-color:var(--portal-primary);}
+.samved-hero {display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 30px!important;background:linear-gradient(135deg,#f5f2ff,#fff 55%,#f6f0ff)!important;}
+.samved-hero h1 {margin:5px 0 8px;color:var(--portal-text);font:800 26px 'Nunito',sans-serif;}
+.samved-hero p {max-width:630px;color:var(--portal-muted);line-height:1.6;}
+.samved-hero strong,.samved-eyebrow {color:var(--portal-primary);}
+.samved-eyebrow {font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;}
+.samved-hero-mark {font-size:50px;}
+.samved-stats-row {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:16px 0 20px;}
+.samved-stat-card {display:flex;align-items:center;gap:12px;padding:16px;text-decoration:none;background:#fff;border:1px solid var(--portal-border);border-radius:16px;box-shadow:0 10px 30px -10px rgba(95,105,160,.08);}
+.samved-stat-card:hover {border-color:var(--portal-primary);}
+.samved-stat-icon {width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:var(--portal-primary-light);font-size:20px;flex:none;}
+.samved-stat-card small {display:block;color:var(--portal-muted);font-size:11px;line-height:1.3;}
+.samved-stat-card strong {display:block;color:var(--portal-text);font:800 19px 'Nunito',sans-serif;margin-top:3px;}
+@media(max-width:1100px) {.samved-stats-row {grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:520px) {.samved-stats-row {grid-template-columns:1fr 1fr;gap:8px;}.samved-stat-card {padding:11px;gap:7px;}.samved-stat-icon {width:30px;height:30px;font-size:15px;}.samved-stat-card strong {font-size:16px;}}
+@media(max-width:850px) {
+  .samved-menu-toggle {display:block!important;}
+  .samved-brand {min-width:0;}
+  .samved-brand img {max-width:122px;}
+  .samved-topbar-title {display:none;}
+  .samved-page-search {display:none;}
+  .samved-navigation {transform:translateX(-105%);transition:transform .2s;box-shadow:8px 0 24px rgba(35,42,66,.15);}
+  body.samved-nav-open .samved-navigation {transform:translateX(0);}
+  body.samved-themed .main-wrapper,body.samved-themed .portal-main {margin-left:0!important;width:100%!important;}
+}
+@media(max-width:600px) {
+  .samved-topbar {padding:10px 12px;gap:9px;}
+  .samved-topbar-actions a {display:none;}
+  body.samved-themed .dashboard-container,body.samved-themed .portal-content {padding:12px!important;}
+  body.samved-themed .top-bar,body.samved-themed .portal-header {padding:18px 14px 6px!important;}
+  .samved-hero {padding:20px!important;align-items:flex-start;}
+  .samved-hero h1 {font-size:22px;}
+  .samved-hero-mark {font-size:29px;}
+  .roadmap-hub .rh-search {display:block;}
+  .roadmap-hub .rh-search input {min-width:0;width:100%;margin-bottom:8px;}
+}
+/* Public authentication pages retain their working form handlers. */
+body.samved-auth {background:linear-gradient(135deg,#eff1fb,#f7f8fd 50%,#eef0fa)!important;font-family:'Plus Jakarta Sans',system-ui,sans-serif;}
+.samved-auth .login-container {background:transparent!important;padding:24px!important;}
+.samved-auth .login-box {max-width:920px!important;display:grid;grid-template-columns:1fr 1fr;padding:0!important;overflow:hidden;border:1px solid var(--portal-border);border-radius:24px!important;box-shadow:0 18px 50px rgba(95,105,160,.12)!important;}
+.samved-auth-art {background:linear-gradient(135deg,#f3effe,#edf1fc);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;}
+.samved-auth-art img {max-width:85%;max-height:330px;object-fit:contain;border-radius:18px;}
+.samved-auth-art p {margin-top:14px;color:var(--portal-primary);font:800 23px 'Nunito',sans-serif;}
+.samved-auth-content {padding:38px!important;max-height:90vh;overflow:auto;}
+.samved-auth-logo {width:160px;max-height:70px;object-fit:contain;display:block;margin-bottom:12px;}
+.samved-auth .login-box h1 {font:800 25px 'Nunito',sans-serif;color:var(--portal-text);}
+.samved-auth .login-box button[type=submit] {background:var(--portal-primary)!important;border-radius:11px!important;}
+.samved-auth .login-box a {color:var(--portal-primary)!important;}
+.samved-auth .login-box input,.samved-auth .login-box select {border-radius:10px!important;}
+@media(max-width:720px) {.samved-auth .login-box {display:block;max-width:500px!important;}.samved-auth-art {display:none;}.samved-auth-content {max-height:none;padding:28px!important;}}
+
+/* The prototype's three-column layout around the live account pages. */
+body.samved-themed {overflow-x:hidden!important;}
+body.samved-themed .samved-portal-adapter {max-width:1800px;width:100%;padding:10px 18px 28px;}
+.samved-portal-adapter .portal-topbar {position:relative;top:auto;left:auto;right:auto;height:auto;min-height:74px;background:transparent;border:0;box-shadow:none;backdrop-filter:none;}
+.samved-portal-adapter .portal-brand-logo {max-width:170px;max-height:52px;}
+.samved-portal-adapter .portal-body-grid {grid-template-columns:210px minmax(0,1fr) 260px;gap:18px;align-items:start;}
+.samved-portal-adapter .portal-sidebar {position:sticky;top:12px;width:auto;height:auto;max-height:calc(100vh - 24px);overflow-y:auto;background:transparent;border:0;box-shadow:none;padding:0;}
+.samved-portal-adapter .portal-nav-list {margin-bottom:12px;}
+.samved-portal-adapter .portal-nav-link {min-height:39px;}
+.samved-portal-adapter .portal-sidebar-footer {margin-top:16px;}
+.samved-portal-adapter .portal-sidebar-btn.logout {display:block;width:100%;border:1px solid #dddff2;background:#fff;color:#5b6580;text-align:left;cursor:pointer;}
+.samved-portal-adapter .portal-sidebar-btn.logout:hover {color:#c63a52;border-color:#ffc2cf;}
+.samved-portal-adapter .samved-main-card {display:block;min-width:0;padding:18px 20px 26px;}
+.samved-portal-adapter .samved-content-root {min-width:0;}
+body.samved-themed .samved-main-card .portal-layout {display:block!important;min-height:0!important;height:auto!important;overflow:visible!important;}
+body.samved-themed .samved-main-card .sidebar {display:none!important;}
+body.samved-themed .samved-main-card .portal-main,
+body.samved-themed .samved-main-card .main-wrapper {display:block!important;position:static!important;margin:0!important;padding:0!important;width:100%!important;min-height:0!important;height:auto!important;overflow:visible!important;background:transparent!important;}
+body.samved-themed .samved-main-card .portal-header,
+body.samved-themed .samved-main-card .top-bar {min-height:0!important;margin:0 0 18px!important;padding:6px 4px 16px!important;border:0!important;border-bottom:1px solid #eef0f8!important;background:transparent!important;box-shadow:none!important;}
+body.samved-themed .samved-main-card .portal-header h2,
+body.samved-themed .samved-main-card .top-bar h1,
+body.samved-themed .samved-main-card .top-bar h2 {font:800 23px 'Nunito',sans-serif!important;color:var(--portal-text-dark)!important;}
+body.samved-themed .samved-main-card .dashboard-container,
+body.samved-themed .samved-main-card .portal-content {padding:4px!important;}
+body.samved-themed .samved-main-card .profile-container {width:100%!important;max-width:none!important;margin:0!important;padding:0 2px 20px!important;}
+body.samved-themed .samved-main-card .profile-container > h1,
+body.samved-themed .samved-main-card .profile-subtitle {display:none!important;}
+body.samved-themed .samved-main-card .profile-card,
+body.samved-themed .samved-main-card .card {border:1px solid var(--portal-card-border)!important;border-radius:18px!important;box-shadow:var(--portal-card-shadow)!important;background:#fff!important;}
+body.samved-themed .samved-main-card .profile-card {padding:22px!important;margin-top:14px!important;}
+body.samved-themed .samved-main-card .profile-card h2 {font:800 21px 'Nunito',sans-serif!important;color:var(--portal-text-dark)!important;}
+body.samved-themed .samved-main-card input,
+body.samved-themed .samved-main-card select,
+body.samved-themed .samved-main-card textarea {border-color:#dfe4f3;border-radius:10px;}
+body.samved-themed .samved-main-card input:focus,
+body.samved-themed .samved-main-card select:focus,
+body.samved-themed .samved-main-card textarea:focus {outline-color:var(--portal-primary);}
+body.samved-themed .samved-main-card .save-record-button,
+body.samved-themed .samved-main-card .btn-sync {background:var(--portal-primary-gradient)!important;color:#fff!important;border-radius:10px!important;}
+body.samved-themed .samved-main-card .subject-row button {justify-self:start;min-height:36px;width:auto;padding:8px 14px!important;background:#f4f0ff!important;color:#6753d8!important;border:1px solid #d9d3fb!important;border-radius:9px!important;line-height:1.2;}
+.samved-portal-adapter .portal-right-rail {position:sticky;top:12px;}
+.samved-portal-adapter .portal-ill-img {height:200px;}
+.samved-portal-adapter .samved-menu-toggle {display:none;}
+.samved-portal-adapter .samved-avatar {width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--portal-primary-gradient);color:#fff;font-weight:800;}
+@media (max-width:1200px) {
+  .samved-portal-adapter .portal-body-grid {grid-template-columns:200px minmax(0,1fr);}
+  .samved-portal-adapter .portal-right-rail {position:static;grid-column:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media (max-width:800px) {
+  .samved-portal-adapter .portal-body-grid {display:block;}
+  .samved-portal-adapter .samved-menu-toggle {display:block;}
+  .samved-portal-adapter .portal-sidebar {display:none;position:relative;top:auto;max-height:none;padding:12px 0;}
+  body.samved-nav-open .samved-portal-adapter .portal-sidebar {display:block;}
+  .samved-portal-adapter .portal-right-rail {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:16px;}
+  .samved-portal-adapter .portal-search-wrap {display:none;}
+}
+@media (max-width:600px) {
+  body.samved-themed .samved-portal-adapter {padding:8px;}
+  .samved-portal-adapter .portal-topbar {gap:8px;padding:6px 4px 12px;}
+  .samved-portal-adapter .portal-brand-logo {max-width:135px;}
+  .samved-portal-adapter .samved-main-card {padding:14px 10px;}
+  .samved-portal-adapter .portal-right-rail {grid-template-columns:1fr;}
+  body.samved-themed .samved-main-card .profile-card {padding:16px!important;}
+  body.samved-themed .samved-main-card .subject-row button {width:auto!important;}
+  body.samved-themed .samved-main-card .dashboard-container,
+  body.samved-themed .samved-main-card .portal-content {padding:0!important;}
+}

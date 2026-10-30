@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: samved
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SAMVED_SECURE_COOKIE
+        value: "true"
+      - key: SAMVED_DB_URL
+        sync: false
+      - key: SAMVED_DB_USER
+        sync: false
+      - key: SAMVED_DB_PASSWORD
+        sync: false

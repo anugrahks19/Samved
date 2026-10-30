@@ -1,0 +1,15 @@
+/.tools/
+/backend/target/
+/backend/.env
+/backend/.roadmap-cache/
+**/.DS_Store
+/.codex/
+/.vscode/
+**/.env
+**/.env.*
+!**/.env.example
+**/__pycache__/
+**/*.pyc
+/output/
+/tmp/
+
