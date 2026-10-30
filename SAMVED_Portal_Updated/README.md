@@ -37,10 +37,8 @@ All API paths below start with `/api/v1/`. `portal-app.js` supplies the integrat
 | `journal/index.html` | Displays the current backend limitation; there is no journal API or fake save |
 | `welcome.html`, `index.html`, `privacy.html` | Public entry and privacy notice |
 
-`portal-page-index.json` lists the 25 integrated source pages, including `onboarding/index.html` and `onboarding/prepare.html`. `portal-routes.json` maps 13 previous URLs (including `/profile/profile.html`, `/profile/academic.html`, and `/auth/login.html`) to these source pages. Compatibility HTML files only redirect to the new locations.
+`portal-page-index.json` lists the 25 integrated source pages, including `onboarding/index.html` and `onboarding/prepare.html`. `portal-routes.json` maps 13 previous URLs (including `/profile/profile.html`, `/profile/academic.html`, and `/auth/login.html`) to these source pages. Compatibility HTML files redirect to the new locations.
 
-Incomplete accounts follow the required step order described in `../ONBOARDING_FLOW.md`. The feature sidebar is hidden during setup. `portal-onboarding.js` supplies the wizard, automatic recommendation/opportunity preparation, personalised dashboard panels, and the isolated sample-account shortcut for judges.
+Incomplete accounts follow the required step order (profile, academics, interests, skills, strengths, values, assessment). The feature sidebar is hidden during setup. `portal-onboarding.js` supplies the wizard, automatic recommendation/opportunity preparation, personalised dashboard panels, and the isolated demo account shortcut.
 
-Edit this directory, stop SAMVED, and reopen the launcher to rebuild. Old prototype `script.js`, `profile.js`, `portal-nav.js`, and `portal-logout.js` files are excluded from packaging. Their mock actions are replaced by the live integration.
-
-Browser verification: `QA_EVIDENCE/updated_portal_check.py` tests these pages with an API fixture. `QA_EVIDENCE/updated_portal_live.py` creates and deletes a disposable account to check real Java/MySQL persistence.
+Edit this directory, stop SAMVED, and rebuild to package changes into the Spring Boot application.

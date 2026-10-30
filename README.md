@@ -1,96 +1,150 @@
-# SAMVED
+# SAMVED — Student Career Guidance & Opportunity Portal
 
-A career guidance portal with a Java 17 / Spring Boot backend, MySQL persistence and a same-origin HTML/CSS/JavaScript frontend.
+[![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.16-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-blue.svg)](https://www.mysql.com/)
+[![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED.svg)](https://www.docker.com/)
+[![Render](https://img.shields.io/badge/Render-Deployed-46E3B7.svg)](https://render.com/)
 
-## Run the frontend, backend, and MySQL locally on Windows
+SAMVED is an end-to-end full-stack career guidance and opportunity discovery platform built with Java 17, Spring Boot, MySQL, and a modern single-origin web frontend. It empowers students to discover career pathways through psychometric assessment, tailored learning roadmaps, AI-driven action plans, and verified opportunity feeds.
 
-SAMVED has **one web server**. Its only active frontend source is `SAMVED_Portal_Updated/JAVA PROJECT OOP/`. Maven packages that directory into the Spring Boot backend. The old `frontend/` directory is unused by the build. The backend serves the pages and `/api/v1` on port `8080`; MySQL stores account and app data on port `3306`.
+🌐 **Live Demo:** [https://samved-u063.onrender.com/login.html](https://samved-u063.onrender.com/login.html)
 
-### 1. Check Java and Maven
+---
 
-Install JDK 17 and MySQL Server. Maven 3.9+ is required; this checkout already has Maven 3.10.0 at `.tools/apache-maven-3.10.0`. In PowerShell, run these commands from the repository root:
+## Key Features
 
-```powershell
-& "$env:JAVA_HOME\bin\java.exe" -version
-& "$env:JAVA_HOME\bin\javac.exe" -version
-& ".\.tools\apache-maven-3.10.0\bin\mvn.cmd" -version
+* **Secure Authentication & Account Security:**
+  * User registration, BCrypt password hashing, session rotation, CSRF token validation, and IP rate limiting.
+  * Same-origin cookie architecture with strict CSRF protection on all state-altering endpoints.
+
+* **Guided 8-Stage Onboarding Flow:**
+  * Mandatory baseline setup: Profile Info, Academic History, Interests, Skills & Proficiency, Strengths, Values, and Career Direction.
+  * Comprehensive 8-question psychometric career assessment evaluating cognitive and behavioral dimensions.
+
+* **Intelligent Career Matching & Roadmap Generation:**
+  * Rule-based scoring with optional **NVIDIA NIM** LLM integration for personalized career matching and custom role roadmaps.
+  * Visual interactive milestone explorer with external roadmap resources and progress trackers.
+
+* **Actionable Daily Planner & Deadlines:**
+  * Daily learning task manager with due dates, priorities, and status updates (`PENDING`, `IN_PROGRESS`, `COMPLETED`).
+  * Automated deadline notification engine providing in-app reminders for upcoming and overdue milestones.
+
+* **Verified Opportunity Discovery:**
+  * Curated and categorized repository of internships, hackathons, scholarships, courses, and events.
+  * Real-time relevancy matching calculated against student profiles, skills, and goals.
+
+* **Progress & Academic Analytics:**
+  * Central dashboard displaying student progress percentages, milestone completions, and skill distributions.
+
+---
+
+## Architecture & Technology Stack
+
+```text
+Browser Client (HTML5 / CSS3 / Vanilla JS)
+        │
+        ▼ (HTTPS / Same-Origin)
+Spring Boot Web Application (Java 17)
+  ├── Web Security & CSRF Filter
+  ├── REST API Controllers (/api/v1)
+  │    ├── Auth & Profile Services
+  │    ├── Assessment & Recommendation Engine (Optional NVIDIA NIM)
+  │    ├── Personal Roadmaps & Action Planner
+  │    └── Opportunity Discovery Feeds
+  └── Static Resource Server (Serves the compiled portal UI)
+        │
+        ▼ (TLS JDBC Connection)
+Aiven Cloud / Local MySQL 8.0 Database (Flyway Schema Migrations)
 ```
 
-The Java commands should report version 17. You do not need to lengthen the Windows `Path` variable: the launcher and commands here use `JAVA_HOME` and the Maven executable directly. If the Maven file is missing in a fresh clone, extract the Maven 3.10.0 binary archive so that `.tools/apache-maven-3.10.0/bin/mvn.cmd` exists, or use any installed Maven 3.9+ executable instead.
+| Layer | Technologies |
+| :--- | :--- |
+| **Backend** | Java 17, Spring Boot 3.5.16, Spring Data JPA, Spring Security, Flyway |
+| **Database** | MySQL 8.0 (Managed on Aiven Cloud / Local MySQL Server) |
+| **Frontend** | Responsive HTML5, CSS3, ES6+ JavaScript (`portal-app.js`) |
+| **Containerization & Hosting** | Multi-stage Docker build, Render Cloud Platform |
+| **External AI** | NVIDIA NIM API (`gpt-oss-20b`) with robust rule-based fallbacks |
 
-### 2. Configure MySQL once
+---
 
-Install MySQL Server if needed. In MySQL Workbench's SQL editor, connected as an administrator, run the following **only if the database and app user do not already exist**. Replace the sample password with your own:
+## Directory Structure
 
+```text
+├── backend/                              # Java 17 / Spring Boot backend application
+│   ├── pom.xml                           # Maven project config (bundles frontend into static/)
+│   ├── src/main/java/io/samved/          # Modules: auth, student, assessment, roadmap, task, etc.
+│   ├── src/main/resources/               # Database properties and configurations
+│   └── src/test/                         # Integration and unit test suites
+├── SAMVED_Portal_Updated/                # Active frontend web application
+│   └── JAVA PROJECT OOP/                 # Production HTML, CSS, assets, and portal-app.js
+├── curation/                             # Seed dataset of verified opportunities
+├── Dockerfile                            # Production multi-stage Docker container build
+├── render.yaml                           # Infrastructure Blueprint for automated Render deployment
+├── DEPLOYMENT.md                         # Cloud hosting and environment variable guide
+├── Start SAMVED.cmd                      # 1-click Windows local development launcher
+└── start-local.ps1                       # PowerShell local launch script
+```
+
+---
+
+## Local Setup & Development
+
+### Prerequisites
+* **Java Development Kit (JDK) 17+**
+* **MySQL Server 8.0+**
+* **Apache Maven 3.9+** (or use the included wrapper)
+
+### 1. Database Setup
+In MySQL Workbench or the MySQL CLI, create the database:
 ```sql
 CREATE DATABASE IF NOT EXISTS samved CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER IF NOT EXISTS 'samved'@'127.0.0.1' IDENTIFIED BY 'choose-a-strong-local-password';
+CREATE USER IF NOT EXISTS 'samved'@'127.0.0.1' IDENTIFIED BY 'your-password';
 GRANT ALL PRIVILEGES ON samved.* TO 'samved'@'127.0.0.1';
 ```
 
-Copy `backend/.env.example` to `backend/.env` if `.env` does not exist. Set these values to match your MySQL database and user:
-
+### 2. Configure Environment
+Copy `backend/.env.example` to `backend/.env` and update your database credentials:
 ```properties
 SAMVED_DB_URL=jdbc:mysql://127.0.0.1:3306/samved
 SAMVED_DB_USER=samved
-SAMVED_DB_PASSWORD=choose-a-strong-local-password
+SAMVED_DB_PASSWORD=your-password
 SAMVED_SECURE_COOKIE=false
 ```
 
-Keep any existing optional API keys in `.env`. Use plain `KEY=value` lines without quotes. `.env` is ignored by Git; never commit database passwords or API keys. The database password connects the app to MySQL; your website account gets a separate password when you register. Flyway creates and updates the app's tables at startup.
-
-### 3. Start the website
-
-**Double-click:** open `Start SAMVED.cmd` in the repository root. It starts the local MySQL Windows service if needed, builds the current frontend and backend, starts Java, checks startup, and opens the login page. Windows may show an administrator prompt if MySQL was stopped. The first build may download Maven dependencies and take a few minutes.
-
-**One terminal command:** from PowerShell in the repository root, run:
-
+### 3. Build & Run
+**Windows (Quick Start):**
+Double-click `Start SAMVED.cmd` or run:
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\start-local.ps1
 ```
 
-This runs the same launcher as the double-click file. The app continues running after the command returns. If more than one MySQL or MariaDB Windows service exists, set `SAMVED_MYSQL_SERVICE` to the correct service name before launching. To build and run Java manually instead, use:
-
-```powershell
-$repo = (Get-Location).Path
-& ".\.tools\apache-maven-3.10.0\bin\mvn.cmd" -f backend/pom.xml "-Dmaven.repo.local=$repo/.tools/m2" -DskipTests clean package
-Set-Location backend
-& "$env:JAVA_HOME\bin\java.exe" -jar target/samved-backend-0.1.0-SNAPSHOT.jar
+**Manual Maven Build:**
+```bash
+mvn -f backend/pom.xml clean package -DskipTests
+java -jar backend/target/samved-backend-0.1.0-SNAPSHOT.jar
 ```
 
-If you use a different Maven installation, replace the `mvn.cmd` path. The manual commands assume MySQL is already running. Run the jar from `backend/` so it reads `backend/.env`. Press Ctrl+C to stop a manual run.
+Visit **`http://127.0.0.1:8080/login.html`** in your browser.
 
-Open <http://127.0.0.1:8080/login.html>. Use `127.0.0.1` consistently because it and `localhost` have separate browser cookies. Create a website account, then complete the required profile sections and career assessment. MySQL keeps your account and progress after a Java restart. Edit pages in `SAMVED_Portal_Updated/JAVA PROJECT OOP/`, then stop the app and rebuild/restart it. Clean builds remove retired static files from the previous frontend.
+---
 
-The launcher writes its process ID to `.tools/samved-local.pid` and logs to `.tools/samved-local.log` and `.tools/samved-local-errors.log`. To stop a launcher run, end that Java process in Task Manager. If startup fails, check those logs, confirm the `.env` credentials match, and make sure port `8080` is free. See [LOCAL_SETUP.md](LOCAL_SETUP.md) for more local setup details.
+## Cloud Deployment (Render + Managed MySQL)
 
-## Publish online
+The repository is pre-configured for automated deployment via Render Blueprints and Docker.
 
-For a public project URL, deploy the combined Java app and active portal on Render and connect it to a hosted MySQL 8 database. Follow [DEPLOYMENT.md](DEPLOYMENT.md). Vercel alone cannot run the Java backend.
+1. Create a MySQL 8 database on a cloud provider such as **[Aiven](https://aiven.io/)** or **[Railway](https://railway.app/)**.
+2. Connect your GitHub repository in the **[Render Dashboard](https://dashboard.render.com/)** using **New + → Blueprint**.
+3. Supply the environment variables:
+   * `SAMVED_DB_URL`: `jdbc:mysql://<host>:<port>/defaultdb?sslMode=REQUIRED`
+   * `SAMVED_DB_USER`: `<database-username>`
+   * `SAMVED_DB_PASSWORD`: `<database-password>`
+   * *(Optional)* `SAMVED_NVIDIA_API_KEY`: `<your-nvidia-key>`
+4. Render automatically compiles the container, executes Flyway migrations, and provides a live public HTTPS URL. See [DEPLOYMENT.md](DEPLOYMENT.md) for full instructions.
 
-## Features
+---
 
-New accounts follow [the guided onboarding flow](ONBOARDING_FLOW.md) before the dashboard unlocks. Every required section must be saved. A separate, labelled judge-demo account is available through the demo shortcut. After assessment, career suggestions, roadmap matches and opportunities load automatically.
+## API Documentation
 
-- Account registration, login/logout, password changes and account deletion.
-- Mandatory profile details, academic records, interests, skills, strengths, values, career direction and assessment.
-- Personalized roadmap suggestions, catalogue search and saved roadmap choices.
-- Roadmaps and topic explanations displayed inside SAMVED.
-- Tasks, progress, deadlines, reminders, opportunities and analytics.
-
-Optional external catalogue/content retrieval needs `PARSE_API_KEY`; optional AI features need `SAMVED_NVIDIA_API_KEY`. Configure them only in `backend/.env`. Provider content caches, account data, credentials and generated builds are not included in this repository. Roadmap source snapshots remain subject to the source owner's terms; see [local setup](LOCAL_SETUP.md).
-
-## Source and verification
-
-- `SAMVED_Portal_Updated/JAVA PROJECT OOP/`: the active website, its own HTML/CSS, and `portal-app.js` API integration.
-- [Updated portal page map](SAMVED_Portal_Updated/README.md): source pages, old URL aliases, and matching APIs.
-- `backend/`: application, migrations and tests.
-- `QA_EVIDENCE/`: local verification reports and screenshots.
-- [Backend instructions](backend/README.md) and [API contract](backend/API_CONTRACT.md).
-- [Mandatory onboarding verification](QA_EVIDENCE/MANDATORY_ONBOARDING.md).
-
-Run the automated tests from the repository root:
-
-```sh
-mvn -f backend/pom.xml verify
-```
+The complete REST API specification is documented in [backend/API_CONTRACT.md](backend/API_CONTRACT.md).
+All endpoints are namespaced under `/api/v1` and enforce session authentication and CSRF token verification.

@@ -1,6 +1,6 @@
-# SAMVED Developer A API contract (v1)
+# SAMVED API Contract (v1)
 
-All routes below use JSON under `/api/v1`. The frontend and backend share one origin. A server-managed authenticated session identifies the student; private request bodies never contain an owner ID. Christa's auth/profile routes in `FRIEND_AUTH_PROFILE_HANDOFF.md` are separate and must supply the session, CSRF token, and `StudentProfilePort` described in `README.md`.
+All routes below use JSON under `/api/v1`. The frontend and backend share one origin. A server-managed authenticated session identifies the student; private request bodies never contain an owner ID. CSRF token validation protects all state-changing endpoints.
 
 Dates use `YYYY-MM-DD`. Instants use UTC ISO-8601 such as `2026-10-13T17:40:00Z`. Opportunity timezones use IANA IDs such as `Asia/Kolkata`. Unknown fields are JSON `null`; clients must not invent a deadline or progress number.
 
@@ -34,6 +34,6 @@ Validation failures use HTTP 400. Missing or foreign private IDs use 404. No ses
 
 Notification kinds are `DUE_TOMORROW`, `DUE_TODAY`, and `OVERDUE`, calculated in the configured reminder timezone. Completing, changing, or deleting a task removes its old reminders. These notifications appear in the app; email, SMS and background browser push are not included.
 
-## Contract freeze for Christa
+## Authentication & Session Architecture
 
-Christa sets `samvedStudentId` (Java `Long`) in the server session after successful login. That value is the persisted **student profile ID**. Her bean implementing `StudentProfilePort` returns `StudentSnapshot(educationLevel,goalType,goalText,interests,skills,strengths,values)` using that ID. The profile lists contain human-readable normalized labels; skills are exposed as names only for the recommendation rule, while proficiency remains in her own profile DTO. The signed-in account deletion path calls `DeveloperADataDeletion.deleteForStudent(profileId)` inside its transaction. Christa supplies `GET /api/v1/auth/csrf` with `{token}` and rotates/reloads it after login as described in her handoff.
+The server session maintains the authenticated student identifier. `ProfileService` provides the student's profile context (education level, career goal, interests, skills, strengths, and values) to the recommendation engine. Account deletion cascades cleanly across assessments, notifications, tasks, and roadmaps. CSRF tokens are retrieved via `GET /api/v1/auth/csrf` with `{token}` and sent in the `X-CSRF-TOKEN` header on POST, PUT, PATCH, and DELETE requests.

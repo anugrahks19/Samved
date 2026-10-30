@@ -1,6 +1,6 @@
 # Public deployment (Render)
 
-SAMVED is a Java 17 Spring Boot application that serves both the active portal pages and `/api/v1` from one origin. Deploy the repository root as one Render Docker web service. This preserves the existing session-cookie and CSRF setup. The old `frontend/` directory is not part of the deployment.
+SAMVED is a Java 17 Spring Boot application that serves both the active portal pages and `/api/v1` from one origin. Deploy the repository root as one Render Docker web service. This preserves the existing session-cookie and CSRF setup.
 
 ## Before you deploy
 
@@ -18,7 +18,7 @@ SAMVED is a Java 17 Spring Boot application that serves both the active portal p
 3. Deploy. Wait for `/actuator/health` to pass, then open the `onrender.com` URL shown in the service dashboard and go to `/login.html`.
 4. Register a new account and complete onboarding. The application runs Flyway migrations at startup; the configured database user needs permission to create and update tables.
 
-The app reads Render's `PORT` setting, enables secure session cookies for HTTPS, and packages `SAMVED_Portal_Updated/JAVA PROJECT OOP` into its Java server. Do not deploy the retired `frontend/` folder. The free web-service plan can sleep when idle, so the first request after inactivity may take a little time to start.
+The app reads Render's `PORT` setting, enables secure session cookies for HTTPS, and packages `SAMVED_Portal_Updated/JAVA PROJECT OOP` into its Java server. The free web-service plan can sleep when idle, so the first request after inactivity may take a little time to start.
 
 ## Optional AI integration
 
